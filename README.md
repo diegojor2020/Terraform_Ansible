@@ -1,104 +1,129 @@
-Terraform + Ansible Automation Project
-🚀 Overview
+🏗️ Terraform + Ansible Infrastructure Automation
+📖 Technical Overview
 
-Este repositório demonstra a automação completa de infraestrutura utilizando Terraform e Ansible, seguindo os princípios de Infrastructure as Code (IaC) e práticas modernas de DevOps.
+Este projeto implementa automação de infraestrutura utilizando Terraform para provisionamento de recursos e Ansible para configuração e gerenciamento de servidores, seguindo os princípios de Infrastructure as Code (IaC) e práticas modernas de DevOps.
 
-O objetivo do projeto é provisionar recursos de infraestrutura de forma automatizada e, em seguida, realizar a configuração dos servidores e aplicações utilizando Ansible.
+A arquitetura separa claramente responsabilidades:
 
-A combinação das duas ferramentas permite uma automação ponta a ponta:
+Terraform → Provisioning Layer (Day 0)
 
-Terraform → Provisionamento da infraestrutura
+Ansible → Configuration Management Layer (Day 1 / Day 2)
 
-Ansible → Configuração e gerenciamento dos servidores
-
-Terraform é amplamente utilizado para definir recursos em código declarativo e gerenciar o ciclo de vida da infraestrutura, enquanto o Ansible é focado em automação de configuração e deploy de aplicações.
+Terraform é responsável pela criação e gerenciamento do ciclo de vida da infraestrutura utilizando arquivos declarativos em HCL (HashiCorp Configuration Language), enquanto o Ansible executa automação procedural para configuração do sistema operacional, instalação de pacotes e deploy de aplicações.
 
 🧠 Infrastructure as Code (IaC)
 
-Infrastructure as Code é uma abordagem que permite gerenciar infraestrutura utilizando arquivos de configuração em vez de processos manuais, garantindo consistência, automação e versionamento do ambiente.
+Infrastructure as Code consiste em gerenciar e provisionar infraestrutura por meio de arquivos de configuração versionáveis em vez de processos manuais ou interfaces gráficas, garantindo consistência, rastreabilidade e automação do ambiente.
 
-Benefícios:
+Principais características aplicadas neste projeto:
 
-Ambientes reproduzíveis
+Declarative Infrastructure Definition
 
-Automação de deploy
+Version Control Integration
 
-Controle de versão
+Idempotent Configuration
 
-Escalabilidade
+Automated Provisioning
 
-Redução de erros humanos
+Environment Reproducibility
 
-🏗️ Architecture
+⚙️ Workflow Architecture
 
-Fluxo de automação:
+Fluxo técnico da automação:
 
-Terraform → Criação da infraestrutura (VM, rede, cloud resources)
-        ↓
-Ansible → Configuração do sistema operacional e aplicações
+Developer → Terraform Plan → Terraform Apply → Infrastructure Provisioned
+                                                  ↓
+                                           Dynamic Inventory / SSH
+                                                  ↓
+                                             Ansible Playbook
+                                                  ↓
+                                         Configured Environment
+Etapas:
 
-Terraform cria os recursos e pode acionar o Ansible para finalizar a configuração, formando um workflow completo de automação.
+Terraform inicializa providers e backend (terraform init)
+
+Terraform calcula mudanças de estado (terraform plan)
+
+Recursos são provisionados (terraform apply)
+
+Outputs são utilizados como entrada para Ansible
+
+Ansible conecta via SSH (agentless) e executa playbooks
+
+Ambiente final é configurado automaticamente
+
+Terraform mantém o state file, que representa o estado atual da infraestrutura e permite detectar drift e aplicar mudanças incrementais.
+
+🔗 Integração Terraform + Ansible
+
+A integração entre as ferramentas pode ocorrer através de:
+
+Provisioners (remote-exec / local-exec)
+
+Dynamic inventory
+
+Outputs do Terraform
+
+Scripts de automação
+
+Pipelines CI/CD
+
+Terraform é otimizado para provisionamento de infraestrutura “from zero to ready”, enquanto Ansible é ideal para configuração contínua e operações pós-deploy.
+
+🧱 Architecture Components
+
+Exemplo de recursos normalmente provisionados:
+
+Virtual Machines / Cloud Instances
+
+Network Configuration
+
+Security Groups / Firewall Rules
+
+Storage Resources
+
+SSH Access Configuration
+
+Após provisionamento:
+
+Package Installation
+
+System Hardening
+
+Application Deployment
+
+Service Configuration
+
+Environment Setup
 
 🛠️ Technologies Used
 
-Terraform
+Terraform (HCL)
 
-Ansible
+Ansible (YAML)
 
 Linux
 
-Cloud Infrastructure
-
 SSH
 
-YAML
+Cloud Infrastructure
 
-HCL (HashiCorp Configuration Language)
+Infrastructure as Code
 
-📂 Project Structure (Example)
+Configuration Management
+
+📂 Repository Structure
 Terraform_Ansible/
 │
 ├── terraform/
 │   ├── main.tf
 │   ├── variables.tf
-│   └── outputs.tf
+│   ├── outputs.tf
+│   └── provider.tf
 │
 ├── ansible/
 │   ├── inventory
-│   └── playbook.yml
+│   ├── playbook.yml
+│   └── roles/
 │
 └── README.md
-⚙️ How It Works
-
-1️⃣ Terraform provisiona a infraestrutura
-2️⃣ Outputs são utilizados pelo Ansible
-3️⃣ Ansible configura servidores automaticamente
-4️⃣ Ambiente pronto para uso
-
-Essa abordagem permite automação completa desde a criação até a configuração do ambiente.
-
-🎯 Use Cases
-
-Deploy automático de ambientes cloud
-
-Configuração de servidores Linux
-
-Provisionamento de infraestrutura DevOps
-
-Laboratórios de estudo
-
-Ambientes de desenvolvimento e produção
-
-📈 DevOps Skills Demonstrated
-
-Infrastructure as Code (IaC)
-
-Automação de Provisionamento
-
-Configuration Management
-
-Integração Terraform + Ansible
-
-Cloud Automation
-
-Linux Administration
